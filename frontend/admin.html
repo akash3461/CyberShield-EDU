@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CyberShield EDU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Password Gate -->
+    <div id="password-gate">
+        <a href="index.html" class="back-nav">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Back to Home</span>
+        </a>
+
+        <div class="glass-card animate-on-scroll" style="padding: 3rem;">
+            <div class="logo-icon" style="margin: 0 auto 1.5rem; width: 64px; height: 64px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <rect x="9" y="11" width="6" height="4" rx="1" />
+                </svg>
+            </div>
+            <h2 style="margin-bottom: 0.5rem;">Access Restricted</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Please enter the administrator password to proceed.</p>
+            <input type="password" id="adminPasswordInput" class="search-input" placeholder="••••••••" style="margin-bottom: 1rem; text-align: center;">
+            <button id="btn-admin-login" class="btn-primary" style="width: 100%;">Unlock Dashboard</button>
+            <p id="gate-error" style="color: #f87171; font-size: 0.8rem; margin-top: 1rem; display: none;">Invalid administrator password.</p>
+        </div>
+    </div>
+
+    <div class="admin-layout" id="admin-interface" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <a href="index.html" class="logo">
+                <div class="logo-badge">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                    </svg>
+                </div>
+                <span>CyberShield</span>
+            </a>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#overview" class="sidebar-link active" data-tab="overview">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+                        Overview
+                    </a></li>
+                    <li><a href="#scans" class="sidebar-link" data-tab="scans">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                        Scan Explorer
+                    </a></li>
+                    <li><a href="#users" class="sidebar-link" data-tab="users">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" /></svg>
+                        Users
+                    </a></li>
+                    <li><a href="#ai-control" class="sidebar-link" data-tab="ai-control">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.456-2.455l.259-1.036.259 1.036a3.375 3.375 0 002.455 2.456l1.036.259-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>
+                        AI Control
+                    </a></li>
+                    <li><a href="#settings" class="sidebar-link" data-tab="settings">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-.75 4.5V21m0-18v4.5m-6 3h12" /></svg>
+                        Settings
+                    </a></li>
+                </ul>
+            </nav>
+
+            <div style="margin-top: auto; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+                <button id="btn-logout" class="sidebar-link" style="width: 100%; border: none; background: none; cursor: pointer;">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-container">
+                <!-- Header -->
+                <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; animation: fadeInUp 0.8s ease both;">
+                    <div>
+                        <h1 id="section-title" style="font-size: 2rem; color: var(--text-main);">System Overview</h1>
+                        <p style="color: var(--text-muted);">Real-time metrics and security insights.</p>
+                    </div>
+                    <div class="nav-actions">
+                        <!-- Theme Toggle -->
+                        <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                            <div class="slider">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div id="auth-buttons" class="auth-ui">
+                            <a href="login.html" class="btn btn-ghost">Login</a>
+                            <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                        </div>
+
+                        <div id="user-profile" class="auth-ui" style="display: none;">
+                            <div class="user-command-center">
+                                <div class="user-stats-brief">
+                                    <div class="level-circle" data-gamif="level">1</div>
+                                    <div class="user-meta">
+                                        <span id="header-username" class="username-text">User</span>
+                                        <span class="xp-count"><span data-gamif="xp">0</span> XP</span>
+                                    </div>
+                                </div>
+                                <button onclick="logout()" class="logout-mini-btn" title="Logout">
+                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div id="overview" class="admin-section active">
+                    <div class="admin-grid">
+                        <div class="dash-card stagger-1">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div class="stat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg></div>
+                                <span style="color: #4ade80; font-size: 0.8rem; font-weight: 700;">+12%</span>
+                            </div>
+                            <div class="stat-value" id="stat-total-scans">1,284</div>
+                            <div class="stat-label">Total Audits</div>
+                        </div>
+                        <div class="dash-card stagger-2">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: #f87171;"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3Z" /></svg></div>
+                                <span style="color: #f87171; font-size: 0.8rem; font-weight: 700;">+5%</span>
+                            </div>
+                            <div class="stat-value" id="stat-scams-detected">243</div>
+                            <div class="stat-label">Threats Blocked</div>
+                        </div>
+                        <div class="dash-card stagger-3">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div class="stat-icon" style="background: rgba(34, 197, 94, 0.1); color: #4ade80;"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg></div>
+                                <span style="color: #4ade80; font-size: 0.8rem; font-weight: 700;">+48</span>
+                            </div>
+                            <div class="stat-value" id="stat-total-users">859</div>
+                            <div class="stat-label">Active Users</div>
+                        </div>
+                        <div class="dash-card stagger-4">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                                <span class="health-dot"></span>
+                            </div>
+                            <div class="stat-value">99.9%</div>
+                            <div class="stat-label">System Uptime</div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-top: 2rem;">
+                        <div class="dash-card stagger-5">
+                            <h3 style="margin-bottom: 2rem; color: var(--text-main);">Threat Activity (Past 7 Days)</h3>
+                            <div style="position: relative; height: 300px; flex-grow: 1;">
+                                <canvas id="trendsChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="dash-card stagger-5">
+                            <h3 style="margin-bottom: 2rem; color: var(--text-main);">Scan Distribution</h3>
+                            <div style="position: relative; height: 300px; flex-grow: 1;">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <div id="scans" class="admin-section">
+                <div class="dash-card stagger-1">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--text-main);">Recent Audits</h3>
+                        <div style="display: flex; gap: 1rem;">
+                            <input type="text" class="search-input" placeholder="Search logs..." style="margin-bottom: 0; min-width: 250px;">
+                            <button class="btn-ghost" style="padding: 0 1rem;">Filter</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="scan-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Type</th>
+                                    <th>Content Preview</th>
+                                    <th>Result</th>
+                                    <th>Confidence</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="users" class="admin-section">
+                <div class="dash-card stagger-1">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--text-main);">User Management</h3>
+                        <button class="btn-primary">+ Add Auditor</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="user-list">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                    <th>Status</th>
+                                    <th>Audit Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ai-control" class="admin-section">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="dash-card stagger-1">
+                        <h3 style="color: var(--text-main);">Blacklisted Indicators</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">Entries here trigger immediate scam classification.</p>
+                        <form id="addKeywordForm" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                            <input type="text" id="newKeywordInput" class="search-input" placeholder="New indicator..." required style="margin-bottom:0">
+                            <button type="submit" class="btn-primary" style="padding: 0 1rem;">Add</button>
+                        </form>
+                        <div id="keywordGrid" style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                    <div class="dash-card stagger-2">
+                        <h3 style="color: var(--text-main);">Model Sensitivity</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">Adjust the threshold for AI decision confidence.</p>
+                        <div style="margin-bottom: 2rem;">
+                            <label style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span>Confidence Threshold</span>
+                                <span id="threshold-val" style="color: var(--primary); font-weight: 700;">80%</span>
+                            </label>
+                            <input type="range" min="50" max="99" value="80" style="width: 100%; accent-color: var(--primary);" oninput="document.getElementById('threshold-val').textContent = this.value + '%'">
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <button class="btn-ghost" style="justify-content: flex-start; padding: 1rem;">Recalibrate Model</button>
+                            <button class="btn-ghost" style="justify-content: flex-start; padding: 1rem;">View Model Logs</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings" class="admin-section">
+                <div class="dash-card stagger-1" style="max-width: 600px;">
+                    <h3 style="color: var(--text-main);">General Settings</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600;">Maintenance Mode</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">Disable all public scan features.</div>
+                            </div>
+                            <input type="checkbox" class="theme-switch" style="width: 40px; height: 20px;">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600;">Data Anonymization</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">Strip PII from history logs.</div>
+                            </div>
+                            <input type="checkbox" checked class="theme-switch" style="width: 40px; height: 20px;">
+                        </div>
+                        <hr style="border: 0.5px solid var(--glass-border);">
+                        <button class="btn-primary">Flush System Cache</button>
+                        <button class="btn-ghost" style="color: #f87171;">Destructive: Clear All Logs</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Application Logic -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

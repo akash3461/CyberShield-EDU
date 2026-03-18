@@ -1,0 +1,8 @@
+remote: warning: File backend/venv/Lib/site-packages/cv2/cv2.pyd is 71.35 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB        
+remote: error: Trace: 140b9429803f5f703d87aa1a1fa06cdf4c81980586d9057f0b38d31445ffec30        
+remote: error: See https://gh.io/lfs for more information.        
+remote: error: File backend/venv/Lib/site-packages/torch/lib/torch_cpu.dll is 252.67 MB; this exceeds GitHub's file size limit of 100.00 MB        
+remote: error: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.        
+To https://github.com/FerretyCobra/CyberShield-EDU.git
+ ! [remote rejected]   main -> main (pre-receive hook declined)
+error: failed to push some refs to 'https://github.com/FerretyCobra/CyberShield-EDU.git'

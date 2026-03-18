@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - CyberShield EDU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- Header / Navigation -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-badge">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+            </div>
+            <span>CyberShield</span>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="detector.html">Detector</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="history.html">My Scans</a></li>
+                <li><a href="quiz.html">Scam Quiz</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- Gamified Stats -->
+            <div class="user-stats-badge">
+                <div class="level-indicator" data-gamif="level">1</div>
+                <div class="stat-group">
+                    <span class="stat-label" data-gamif="title">Initiate</span>
+                    <span class="stat-value"><span data-gamif="xp">0</span> XP</span>
+                    <div class="xp-progress-mini">
+                        <div class="xp-fill" data-gamif="progress" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Theme Toggle -->
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <div class="slider">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div id="auth-buttons" class="auth-ui">
+                <a href="login.html" class="btn btn-ghost">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div id="user-profile" class="auth-ui" style="display: none;">
+                <div class="user-info-pill">
+                    <span id="header-username" class="username-text">User</span>
+                    <button onclick="logout()" class="logout-mini-btn" title="Logout">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+
+    <main>
+        <!-- About Hero -->
+        <section class="hero-section" style="padding-bottom: 0;">
+            <div class="container animate-on-scroll">
+                <div class="badge">OUR MISSION</div>
+                <h1 class="hero-title">Securing the Digital Frontier</h1>
+                <p class="hero-subtitle">
+                    Empowering the next generation with AI-driven security tools and 
+                    comprehensive cybersecurity education to fight online fraud.
+                </p>
+            </div>
+        </section>
+
+        <!-- About Content -->
+        <section class="section">
+            <div class="container">
+                <div class="auth-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                    <div class="glass-card animate-on-scroll" style="padding: 2.5rem;">
+                        <div class="step-number" style="margin-bottom: 1.5rem;">01</div>
+                        <h3 class="gradient-text" style="margin-bottom: 1rem;">The Challenge</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.6;">
+                            Cyberattacks succeed not because of failing technology, but because of human error. 
+                            As scams become more sophisticated, traditional awareness is no longer enough.
+                        </p>
+                    </div>
+
+                    <div class="glass-card animate-on-scroll" style="padding: 2.5rem; animation-delay: 0.1s;">
+                        <div class="step-number" style="margin-bottom: 1.5rem;">02</div>
+                        <h3 class="gradient-text" style="margin-bottom: 1rem;">Our AI Solution</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.6;">
+                            We leverage state-of-the-art Deep Learning models to analyze messages, URLs, images, 
+                            and documents, identifying subtle patterns that human scrutiny often misses.
+                        </p>
+                    </div>
+
+                    <div class="glass-card animate-on-scroll" style="padding: 2.5rem; animation-delay: 0.2s;">
+                        <div class="step-number" style="margin-bottom: 1.5rem;">03</div>
+                        <h3 class="gradient-text" style="margin-bottom: 1rem;">Gamified Learning</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.6;">
+                            Education should be engaging. Our system rewards progress with XP and badges, 
+                            turning the journey toward cyber-safety into an interactive and rewarding experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 CyberShield EDU. Stay Safe, Stay Informed.</p>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

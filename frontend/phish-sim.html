@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishSim Challenge - CyberShield EDU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .sim-container {
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .phish-email-preview {
+            background: white;
+            color: #333;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: left;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+            position: relative;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .phish-email-preview.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .email-header {
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+        }
+        .email-meta { font-size: 0.9rem; color: #666; margin-bottom: 5px; }
+        .email-body { font-size: 1rem; line-height: 1.6; }
+        .action-tray {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .timer-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .timer-fill {
+            height: 100%;
+            width: 100%;
+            background: var(--secondary);
+            transition: width 1s linear;
+        }
+        #score-display {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow bg-glow-3"></div>
+    
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-badge">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+            </div>
+            <span>CyberShield</span>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="detector.html">Detector</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="history.html">My Scans</a></li>
+                <li><a href="quiz.html">Scam Quiz</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- Gamified Stats -->
+            <div class="user-stats-badge">
+                <div class="level-indicator" data-gamif="level">1</div>
+                <div class="stat-group">
+                    <span class="stat-label" data-gamif="title">Initiate</span>
+                    <span class="stat-value"><span data-gamif="xp">0</span> XP</span>
+                    <div class="xp-progress-mini">
+                        <div class="xp-fill" data-gamif="progress" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Theme Toggle -->
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <div class="slider">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div id="auth-buttons" class="auth-ui">
+                <a href="login.html" class="btn btn-ghost">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div id="user-profile" class="auth-ui" style="display: none;">
+                <div class="user-info-pill">
+                    <span id="header-username" class="username-text">User</span>
+                    <button onclick="logout()" class="logout-mini-btn" title="Logout">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+
+    <main class="container sm-container">
+        <div class="sim-container">
+            <div class="hero-tag">🎣 PHISH-SIM EXPERIENCE</div>
+            <h1>Simulated Phishing Challenge</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Spot the scams before time runs out. Earn +50 XP for every correct identification!</p>
+
+            <div id="score-display">Correct: 0</div>
+            <div class="timer-bar"><div id="timer" class="timer-fill"></div></div>
+
+            <div id="email-stage">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="action-tray">
+                <button class="btn btn-primary" style="background:#ef4444; border:none;" onclick="triggerVoice(true)">🚨 SCAM</button>
+                <button class="btn btn-primary" style="background:#22c55e; border:none;" onclick="triggerVoice(false)">✅ SAFE</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/gamification.js"></script>
+    <script>
+        const CHALLENGES = [
+            {
+                from: "security@netfIix-support.com",
+                subject: "Urgent: Your account is on hold",
+                body: "Dear User, Your last payment failed. Please click here to update your billing details immediately or your subscription will be cancelled.",
+                isScam: true,
+                reason: "Look at the 'Netflix' misspelling with an 'I' (capital i)."
+            },
+            {
+                from: "noreply@google.com",
+                subject: "New login from Chrome on Windows",
+                body: "A new device just logged into your account. If this was you, you can ignore this email.",
+                isScam: false,
+                reason: "Standard security notification from a legitimate domain."
+            },
+            {
+                from: "payroll@youruniversity.edu",
+                subject: "Summer Internship Stipend Update",
+                body: "Please download the attached PDF to view your summer internship payment schedule.",
+                isScam: true,
+                reason: "Universities usually don't send stipend info via unexpected attachments."
+            }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let timeLeft = 100;
+
+        function renderChallenge() {
+            const stage = document.getElementById('email-stage');
+            const item = CHALLENGES[currentIdx];
+            stage.innerHTML = `
+                <div class="phish-email-preview active">
+                    <div class="email-header">
+                        <div class="email-meta"><strong>From:</strong> ${item.from}</div>
+                        <div class="email-meta"><strong>Subject:</strong> ${item.subject}</div>
+                    </div>
+                    <div class="email-body">${item.body}</div>
+                </div>
+            `;
+        }
+
+        function triggerVoice(val) {
+            const item = CHALLENGES[currentIdx];
+            if (val === item.isScam) {
+                score++;
+                alert("Nice catch! " + item.reason);
+                if (window.Gamification) window.Gamification.addXp(50, "Spotted Simulated Phish");
+            } else {
+                alert("Oops! You missed it. " + item.reason);
+            }
+            
+            currentIdx = (currentIdx + 1) % CHALLENGES.length;
+            document.getElementById('score-display').textContent = `Correct: ${score}`;
+            renderChallenge();
+        }
+
+        renderChallenge();
+    </script>
+</body>
+</html>

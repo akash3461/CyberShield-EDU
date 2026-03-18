@@ -1,0 +1,285 @@
+/* Gamification & Achievement UI */
+
+#toast-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.gamif-toast {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 12px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    transform: translateX(120%);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-width: 280px;
+    pointer-events: auto;
+}
+
+.gamif-toast.show {
+    transform: translateX(0);
+}
+
+.gamif-toast.level-up {
+    border-color: #f59e0b;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+.toast-icon {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 50%;
+}
+
+.toast-content {
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* User Stats Badge in Header */
+.user-stats-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 6px 16px;
+    border-radius: 12px;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+}
+
+.user-stats-badge:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary);
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.level-indicator {
+    background: var(--primary);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.75rem;
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* XP Progress Bar */
+.xp-progress-mini {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    width: 100%;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.xp-fill {
+    height: 100%;
+    background: var(--primary);
+    box-shadow: 0 0 5px var(--primary-glow);
+    transition: width 0.5s ease;
+}
+
+/* Scam Ticker */
+.scam-ticker {
+    background: rgba(239, 68, 68, 0.1);
+    border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 8px 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ticker-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.ticker-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #f87171;
+    flex-shrink: 0;
+}
+
+.ticker-text {
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.ticker-text span {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Quick Tips Section */
+.quick-tips-section {
+    padding: 40px 0 !important;
+}
+
+.tips-container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 32px !important;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%) !important;
+}
+
+.tip-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+.tip-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+#quickTipText {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 11000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    padding: 40px !important;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-modal:hover {
+    color: var(--text-main);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.modal-header h3 {
+    font-size: 1.5rem;
+    color: var(--text-main);
+}
+
+.explanation-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.exp-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+}
+
+.exp-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.exp-item p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

@@ -1,0 +1,9 @@
+backend/venv/
+__pycache__/
+*.pyc
+.env
+backend/logs/app.log
+backend/logs/celery.log
+backend/.pytest_cache/
+frontend/node_modules/
+.DS_Store
