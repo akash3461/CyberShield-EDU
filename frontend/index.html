@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield EDU | AI-Powered Fraud Protection</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/gamification.css">
+</head>
+
+<body>
+    <!-- Background Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-badge">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+            </div>
+            <span>CyberShield</span>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="detector.html">Detector</a></li>
+                <li><a href="academy.html">Academy</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="history.html">My Scans</a></li>
+                <li><a href="quiz.html">Scam Quiz</a></li>
+                <li><a href="admin.html" id="admin-nav">Admin</a></li>
+                            <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- Theme Toggle -->
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <div class="slider">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div id="auth-buttons" class="auth-ui">
+                <a href="login.html" class="btn btn-ghost">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+
+            <div id="user-profile" class="auth-ui" style="display: none;">
+                <div class="user-command-center">
+                    <div class="user-stats-brief">
+                        <div class="level-circle" data-gamif="level">1</div>
+                        <div class="user-meta">
+                            <span id="header-username" class="username-text">User</span>
+                            <span class="xp-count"><span data-gamif="xp">0</span> XP</span>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="logout-mini-btn" title="Logout">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    
+    <!-- Scam Alert Ticker -->
+    <div class="scam-ticker">
+        <div class="ticker-content">
+            <span class="ticker-label">⚠️ RECENT ALERTS:</span>
+            <div class="ticker-text" id="scamTicker">
+                <span>Loading latest community reports...</span>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero animateOnScroll">
+            <div class="container">
+                <div class="hero-tag">✨ AI-POWERED SCAM PROTECTION</div>
+                <h1>Stay Safe from <br> Online Fraud</h1>
+                <p>Shield yourself from fake internships, predatory scholarships, and career scams with our advanced AI detection engine.</p>
+                <div class="nav-actions" style="justify-content: center;">
+                <div class="nav-actions" style="justify-content: center;">
+                    <a href="detector.html" class="btn btn-primary" style="padding: 16px 40px;">Get Started</a>
+                    <a href="education.html" class="btn btn-ghost" style="padding: 16px 40px;">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz CTA Section -->
+        <section class="animateOnScroll" style="margin-top: 60px;">
+            <div class="container">
+                <div class="glass-card" style="display: flex; align-items: center; gap: 40px; padding: 4rem; overflow: hidden; position: relative; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 300px; z-index: 2;">
+                        <div class="hero-tag" style="background: rgba(168, 85, 247, 0.1); color: var(--secondary); border-color: rgba(168, 85, 247, 0.2);">🧠 TEST YOUR KNOWLEDGE</div>
+                        <h2 style="font-size: clamp(2rem, 4vw, 2.5rem); margin-bottom: 1.5rem; color: var(--text-main);">Can You Spot the Scam?</h2>
+                        <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 500px;">Take our interactive quiz to see if you can identify the latest phishing tactics and fraudulent messages. Earn XP and level up your security score!</p>
+                        <a href="quiz.html" class="btn btn-primary" style="padding: 16px 40px; background: var(--secondary); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3); border: none;">Start Quiz Challenge</a>
+                    </div>
+                    <div style="flex: 1; min-width: 250px; display: flex; justify-content: center; position: relative; z-index: 1;">
+                        <div style="font-size: 8rem; opacity: 0.1; filter: blur(2px);">🏆</div>
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 5rem;">🛡️</div>
+                    </div>
+                    <!-- Decorative Circle -->
+                    <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: var(--secondary); filter: blur(100px); opacity: 0.2; border-radius: 50%;"></div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- Report a Scam Section -->
+        <section id="report" class="animateOnScroll" style="margin-top: 100px;">
+            <div class="container" style="max-width: 800px;">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <div class="hero-tag" style="margin-bottom: 10px;">📢 COMMUNITY PROTECTION</div>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 10px; color: var(--text-main);">Report a Scam</h2>
+                    <p>Help others stay safe by reporting suspicious companies or fraudulent activities.</p>
+                </div>
+
+                <div class="glass-card" style="padding: 3rem;">
+                    <form id="scamReportForm" enctype="multipart/form-data">
+                        <div class="input-group">
+                            <label style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-main);">Company / Organization Name *</label>
+                            <input type="text" id="reportCompanyName" placeholder="e.g., Global Tech Internships" required name="company_name">
+                        </div>
+                        
+                        <div class="input-group" style="margin-top: 20px;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-main);">Scam Description *</label>
+                            <textarea id="reportDescription" rows="5" placeholder="Describe the scam in detail... What happened? How did they contact you?" required name="description"></textarea>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 20px;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-main);">Upload Evidence (Optional)</label>
+                            <div style="border: 2px dashed var(--glass-border); padding: 30px; text-align: center; border-radius: 12px; cursor: pointer; transition: 0.3s;" 
+                                 onclick="document.getElementById('reportEvidence').click()"
+                                 id="dropZone">
+                                <p style="color: var(--text-secondary); margin: 0;">Click to upload screenshot or PDF documentation</p>
+                                <input type="file" id="reportEvidence" name="evidence" style="display:none" onchange="updateFileName(this)">
+                                <div id="fileNameDisplay" style="margin-top: 10px; font-weight: 600; color: var(--primary); display: none;"></div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 10px; margin: 30px 0;">
+                            <input type="checkbox" id="reportAnonymous" checked style="width: 18px; height: 18px;" name="is_anonymous">
+                            <label for="reportAnonymous" style="font-size: 0.9rem; color: var(--text-secondary); cursor: pointer;">Report anonymously (Your identity will be protected)</label>
+                        </div>
+
+                        <button type="submit" id="btn-submit-report" class="btn btn-primary w-full" style="padding: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+                            </svg>
+                            Submit Report
+                        </button>
+                    </form>
+                    <div id="report-success" style="display:none; text-align: center; padding: 20px;" class="animateOnScroll animated">
+                        <div style="width: 64px; height: 64px; background: rgba(34, 197, 94, 0.1); color: #4ade80; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <h3 style="color: var(--text-main); margin-bottom: 10px;">Report Submitted</h3>
+                        <p style="color: var(--text-secondary);">Thank you for helping keep the community safe. Our team will review this report shortly.</p>
+                        <button class="btn btn-ghost" style="margin-top: 20px;" onclick="resetReportForm()">Submit Another Report</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats / Secondary Section -->
+        <section class="animateOnScroll" style="background: rgba(255,255,255,0.02); border-radius: 40px; margin-top: 60px;">
+            <div class="container">
+                <div class="feature-grid">
+                    <div class="glass-card">
+                        <h3 style="color: var(--primary); margin-bottom: 15px;">24/7 Monitoring</h3>
+                        <p>Our AI models are constantly updated with the latest scam patterns from global reports.</p>
+                    </div>
+                    <div class="glass-card">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Student Focused</h3>
+                        <p>Tailored specifically to detect scams targeting interns and scholarship seekers.</p>
+                    </div>
+                    <div class="glass-card">
+                        <h3 style="color: var(--accent); margin-bottom: 15px;">Fast & Accurate</h3>
+                        <p>Get results in seconds with a detailed confidence breakdown and warning flags.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" style="border-top:1px solid var(--glass-border);padding:2rem 0;"><div class="container" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;"><p style="margin:0;">&copy; 2026 CyberShield EDU. Stay Safe, Stay Informed.</p><div style="display:flex;gap:1.5rem;"><a href="about.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">About</a><a href="terms.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">Terms</a><a href="developer.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">API</a></div></div></footer>
+
+    <!-- Confidence Explanation Modal -->
+    <div id="confidenceModal" class="modal">
+        <div class="modal-content glass-card">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <div class="tip-icon">🛡️</div>
+                <h3>Understanding the Confidence Score</h3>
+            </div>
+            <div class="modal-body">
+                <p>The <strong>AI Confidence Score</strong> represents how closely the analyzed content matches known fraudulent patterns in our database.</p>
+                <div class="explanation-grid">
+                    <div class="exp-item">
+                        <span class="exp-label">90% - 100%</span>
+                        <p>High certainty of a scam. Features align perfectly with verified fraud tactics.</p>
+                    </div>
+                    <div class="exp-item">
+                        <span class="exp-label">70% - 89%</span>
+                        <p>Suspicious indicators found. Proceed with extreme caution.</p>
+                    </div>
+                    <div class="exp-item">
+                        <span class="exp-label">50% - 69%</span>
+                        <p>Potential risk detected. Patterns are ambiguous but warrant a second look.</p>
+                    </div>
+                    <div class="exp-item">
+                        <span class="exp-label">Below 50%</span>
+                        <p>Low matching with fraud signatures. Usually indicates safe content.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.85rem; color: var(--text-muted);">Note: Our AI evaluates linguistics, metadata, and structural patterns. Always use your best judgment in addition to our analysis.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        function updateFileName(input) {
+            const display = document.getElementById('fileNameDisplay');
+            if (input.files && input.files[0]) {
+                display.textContent = "Selected: " + input.files[0].name;
+                display.style.display = 'block';
+                document.getElementById('dropZone').style.borderColor = 'var(--primary)';
+            } else {
+                display.style.display = 'none';
+                document.getElementById('dropZone').style.borderColor = 'var(--glass-border)';
+            }
+        }
+
+        function resetReportForm() {
+            document.getElementById('scamReportForm').reset();
+            document.getElementById('scamReportForm').style.display = 'block';
+            document.getElementById('report-success').style.display = 'none';
+            document.getElementById('fileNameDisplay').style.display = 'none';
+            document.getElementById('dropZone').style.borderColor = 'var(--glass-border)';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield Mail | PhishSim 2.0</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/gamification.css">
+    <style>
+        :root {
+            --inbox-sidebar: 240px;
+            --message-list: 350px;
+            --mail-bg: #ffffff;
+            --mail-border: #e5e7eb;
+            --mail-hover: #f9fafb;
+            --mail-selected: #eef2ff;
+        }
+
+        .mode-dark {
+            --mail-bg: #0f172a;
+            --mail-border: #1e293b;
+            --mail-hover: #1e293b;
+            --mail-selected: #1e1b4b;
+        }
+
+        .inbox-dashboard {
+            display: grid;
+            grid-template-columns: var(--inbox-sidebar) var(--message-list) 1fr;
+            height: calc(100vh - 120px);
+            background: var(--mail-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+        /* Sidebar Folders */
+        .mail-sidebar {
+            background: rgba(var(--primary-rgb, 0,0,0), 0.05);
+            border-right: 1px solid var(--mail-border);
+            padding: 20px;
+        }
+
+        .folder-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .folder-item:hover, .folder-item.active {
+            background: var(--primary-glow);
+            color: var(--primary);
+        }
+
+        .folder-item svg { width: 20px; }
+
+        /* Message List */
+        .mail-list {
+            border-right: 1px solid var(--mail-border);
+            overflow-y: auto;
+        }
+
+        .mail-item {
+            padding: 20px;
+            border-bottom: 1px solid var(--mail-border);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .mail-item:hover { background: var(--mail-hover); }
+        .mail-item.selected { background: var(--mail-selected); border-left: 4px solid var(--primary); }
+
+        .mail-item-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .mail-sender { font-weight: 700; color: var(--text-main); font-size: 0.9rem; }
+        .mail-time { font-size: 0.75rem; color: var(--text-muted); }
+        .mail-subject { font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin-bottom: 5px; }
+        .mail-snippet { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* Reading Pane */
+        .mail-reading-pane {
+            display: flex;
+            flex-direction: column;
+            background: var(--mail-bg);
+            position: relative;
+        }
+
+        .reading-pane-header {
+            padding: 30px;
+            border-bottom: 1px solid var(--mail-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reading-pane-content {
+            padding: 40px;
+            flex: 1;
+            overflow-y: auto;
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+
+        /* Action Buttons */
+        .mail-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-mail-action {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid var(--mail-border);
+            background: var(--bg-card);
+            color: var(--text-main);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-report:hover { background: var(--danger); color: white; border-color: var(--danger); }
+        .btn-safe:hover { background: var(--success); color: white; border-color: var(--success); }
+
+        /* Phish Link Simulation */
+        .sim-link {
+            color: var(--primary);
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+            filter: brightness(1.2);
+        }
+
+        /* Breach Effect */
+        .breach-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(239, 68, 68, 0.2);
+            pointer-events: none;
+            display: none;
+            z-index: 9999;
+            animation: glitch 0.2s infinite;
+        }
+
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-top: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--text-main);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toast.show { transform: translateX(0); }
+        .toast-success { border-left: 4px solid var(--success); }
+        .toast-error { border-left: 4px solid var(--danger); }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Empty State */
+        .empty-pane {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--text-muted);
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-badge">🛡️</div>
+            <span>CyberShield</span>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="detector.html">Detector</a></li>
+                <li><a href="academy.html">Academy</a></li>
+                <li><a href="education.html" class="active">Education</a></li>
+                <li><a href="history.html">My Scans</a></li>
+                <li><a href="quiz.html">Scam Quiz</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <div id="user-profile" class="auth-ui">
+                <div class="user-command-center">
+                    <div class="user-stats-brief">
+                        <div class="level-circle" data-gamif="level">1</div>
+                        <div class="user-meta">
+                            <span class="xp-count"><span data-gamif="xp">0</span> XP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <div class="slider">☀️</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 100px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="hero-tag">🎣 PHISH-SIM 2.0</div>
+            <h1 style="font-size: 2rem;">CyberShield Mail Simulation</h1>
+            <p style="color: var(--text-muted);">Identify and report suspicious messages in your inbox. Don't click the links!</p>
+        </div>
+
+        <div class="inbox-dashboard animateOnScroll animated">
+            <!-- Sidebar -->
+            <aside class="mail-sidebar">
+                <div class="folder-item active">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <span>Inbox (3)</span>
+                </div>
+                <div class="folder-item">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.175 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.382-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                    <span>Starred</span>
+                </div>
+                <div class="folder-item">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    <span>Trash</span>
+                </div>
+                <div class="folder-item">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <span>Spam</span>
+                </div>
+            </aside>
+
+            <!-- Message List -->
+            <div id="mail-list" class="mail-list">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Reading Pane -->
+            <div id="mail-pane" class="mail-reading-pane">
+                <div class="empty-pane">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">🏤</div>
+                    <h3>Select a message to review</h3>
+                    <p>Practice identification in a safe, simulated environment.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Breach Overlay -->
+    <div id="breach-overlay" class="breach-overlay"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        const MAILS = [
+            {
+                id: 1,
+                from: "Microsoft Security <support@micros0ft-account.com>",
+                subject: "Suspicious Login Attempt Detected",
+                body: `<p>Dear User,</p>
+                       <p>We detected a login to your account from a new device in Moscow, Russia.</p>
+                       <p>If this was NOT you, please <span class="sim-link" onclick="triggerBreach(1)">Secure Your Account Immediately</span>.</p>
+                       <p>Failure to act within 24 hours will result in a permanent account lock.</p>
+                       <p>Stay Safe,<br>Microsoft Team</p>`,
+                isScam: true,
+                reason: "Look closely at the domain: micros0ft-account.com. The '0' (zero) and non-official domain are giant red flags."
+            },
+            {
+                id: 2,
+                from: "Google Security <noreply@google.com>",
+                subject: "Security Alert: New sign-in",
+                body: `<p>A new sign-in occurred on your Google Account from a Windows device.</p>
+                       <p>Was it you? If so, you're all set. If not, we have provided instructions on how to recover your account.</p>
+                       <p>Google Team</p>`,
+                isScam: false,
+                reason: "This is a legitimate automated security notification from @google.com. It doesn't use urgent threats or suspicious links."
+            },
+            {
+                id: 3,
+                from: "University Payroll <payroll-dept@youruniversity-it.org>",
+                subject: "Action Required: Update your Direct Deposit",
+                body: `<p>Attention Student Worker,</p>
+                       <p>Our payroll system is migrating to a new platform. You must update your direct deposit information to ensure your summer stipend is processed.</p>
+                       <p><span class="sim-link" onclick="triggerBreach(3)">Click here to access the Payroll Portal</span></p>
+                       <p>Regards,<br>Internal Financial Services</p>`,
+                isScam: true,
+                reason: "Universities use official .edu domains. A .org domain for payroll from a student worker is highly suspicious."
+            },
+            {
+                id: 4,
+                from: "HR Global Talent <google.recruitment.global@gmail.com>",
+                subject: "Internship Offer: Google Cloud Division",
+                body: `<p>Hello Student,</p>
+                       <p>Congratulations! Your profile has been selected for a remote internship at Google Cloud. The monthly stipend is $4,000.</p>
+                       <p>To finalize your placement, please download the <span class="sim-link" onclick="triggerBreach(4)">PlacementAgreement.zip</span> and return it within 2 hours.</p>
+                       <p>HR Recruitment Team</p>`,
+                isScam: true,
+                reason: "A major tech company like Google will NEVER recruit via a generic @gmail.com address for official roles, and sending .zip files for 'agreements' is a major malware risk."
+            },
+            {
+                id: 5,
+                from: "LinkedIn <notifications-noreply@linkedin.com>",
+                subject: "You have a new connection request",
+                body: `<p>Hi there,</p>
+                       <p>Sarah Johnson, a Senior Developer at Meta, has invited you to connect on LinkedIn.</p>
+                       <p>See Sarah's profile and accept the invitation on the LinkedIn website or app.</p>
+                       <p>The LinkedIn Team</p>`,
+                isScam: false,
+                reason: "This is a standard LinkedIn notification. It leads you to the official platform without requesting sensitive data directly or using suspicious links."
+            },
+            {
+                id: 6,
+                from: "Amazon Support <order-update@amazon-disputes.net>",
+                subject: "Problem with your Order #882-9912",
+                body: `<p>Valued Customer,</p>
+                       <p>We were unable to process your most recent order. Your payment method has been temporarily suspended for safety.</p>
+                       <p>Please <span class="sim-link" onclick="triggerBreach(6)">Verify Your Payment Method</span> to avoid order cancellation and account closure.</p>
+                       <p>Amazon Support</p>`,
+                isScam: true,
+                reason: "The domain 'amazon-disputes.net' is not an official Amazon domain. Scammers use 'Account Closure' threats to create panic."
+            },
+            {
+                id: 7,
+                from: "Instagram Copyright <security@ig-copyright-notice.tk>",
+                subject: "Urgent: Copyright Infringement Notice",
+                body: `<p>Your recent post has been flagged for copyright infringement by a third party.</p>
+                       <p>If you believe this is a mistake, you must appeal here: <span class="sim-link" onclick="triggerBreach(7)">bit.ly/ig-manual-appeal</span></p>
+                       <p>Failing to appeal within 12 hours will result in your account being permanently deleted.</p>`,
+                isScam: true,
+                reason: "The '.tk' TLD is common for free, malicious hosting. Instagram provides copyright notices within the app's 'Account Status' section, not via external .tk sites."
+            },
+            {
+                id: 8,
+                from: "University Library <library@university.edu>",
+                subject: "New Workshop: Digital Literacy for Students",
+                body: `<p>Dear Students,</p>
+                       <p>The library is hosting a workshop on Digital Literacy and advanced research techniques this Friday at 2:00 PM in the Main Hall.</p>
+                       <p>No registration required. Just bring your student ID. Hope to see you there!</p>
+                       <p>Library Services</p>`,
+                isScam: false,
+                reason: "This is a legitimate university announcement. It uses an official .edu domain and points to a physical location with no suspicious digital requests."
+            },
+            {
+                id: 9,
+                from: "DHL Express <delivery@dhl-tracking-portal.info>",
+                subject: "Your package is on hold",
+                body: `<p>Dear Customer,</p>
+                       <p>Your package from 'Global Electronics' is currently on hold at our sorting facility due to unpaid customs duties of $2.50.</p>
+                       <p><span class="sim-link" onclick="triggerBreach(9)">Pay Duties & Release Package</span></p>
+                       <p>Thank you for choosing DHL.</p>`,
+                isScam: true,
+                reason: "The 'small delivery fee' is a classic hook to steal credit card info. The domain '.info' is a major red flag for official shipping services."
+            },
+            {
+                id: 10,
+                from: "Bank Center <alerts@bankofamerica.com>",
+                subject: "Your monthly eStatement is ready",
+                body: `<p>Your digital bank statement for the period ending March 2024 is now available.</p>
+                       <p>To view your statement, please log in to our secure Online Banking portal or use our mobile app.</p>
+                       <p>Bank of America Security</p>`,
+                isScam: false,
+                reason: "Official bank notifications usually don't include direct links to login pages. Instead, they instruct you to use their secure app or official portal."
+            }
+        ];
+
+        let selectedId = null;
+
+        function renderList() {
+            const list = document.getElementById('mail-list');
+            list.innerHTML = MAILS.map(mail => `
+                <div class="mail-item ${selectedId === mail.id ? 'selected' : ''}" onclick="selectMail(${mail.id})">
+                    <div class="mail-item-header">
+                        <span class="mail-sender">${mail.from.split('<')[0]}</span>
+                        <span class="mail-time">Today</span>
+                    </div>
+                    <div class="mail-subject">${mail.subject}</div>
+                    <div class="mail-snippet">${mail.body.replace(/<[^>]*>/g, '').substring(0, 60)}...</div>
+                </div>
+            `).join('');
+        }
+
+        function selectMail(id) {
+            selectedId = id;
+            renderList();
+            const mail = MAILS.find(m => m.id === id);
+            const pane = document.getElementById('mail-pane');
+            
+            pane.innerHTML = `
+                <div class="reading-pane-header">
+                    <div>
+                        <h2 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 5px;">${mail.subject}</h2>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">From: <span style="color: var(--primary);">${mail.from}</span></p>
+                    </div>
+                    <div class="mail-actions">
+                        <button class="btn-mail-action btn-safe" onclick="handleAction('safe', ${mail.id})">✅ Mark Safe</button>
+                        <button class="btn-mail-action btn-report" onclick="handleAction('report', ${mail.id})">🚨 Report Phish</button>
+                    </div>
+                </div>
+                <div class="reading-pane-content">
+                    <div class="glass-card" style="padding: 30px; background: var(--glass-bg);">
+                        <div style="color: var(--text-main);">
+                            ${mail.body}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleAction(action, id) {
+            const mail = MAILS.find(m => m.id === id);
+            const isCorrect = (action === 'report' && mail.isScam) || (action === 'safe' && !mail.isScam);
+            
+            if (isCorrect) {
+                if (window.Gamification) {
+                    window.Gamification.addXp(50, `Spotted ${mail.isScam ? 'Phish' : 'Safe Mail'}`);
+                    showToast(`Correct! +50 XP. ${mail.reason}`, 'success');
+                }
+            } else {
+                showToast(`Incorrect! ${mail.reason}`, 'error');
+            }
+        }
+
+        function triggerBreach(id) {
+            const mail = MAILS.find(m => m.id === id);
+            const overlay = document.getElementById('breach-overlay');
+            overlay.style.display = 'block';
+            
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                alert(`⚠️ SECURITY BREACH SIMULATED!\n\nYou just clicked a link in a phishing email from "${mail.from}".\n\nForensic Lesson: ${mail.reason}`);
+                if (window.Gamification) window.Gamification.addXp(-20, "Clicked Simulated Phish");
+            }, 1000);
+        }
+
+        function showToast(msg, type) {
+            const container = document.getElementById('toast-container') || createToastContainer();
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = msg;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
+        }
+
+        function createToastContainer() {
+            const div = document.createElement('div');
+            div.id = 'toast-container';
+            document.body.appendChild(div);
+            return div;
+        }
+
+        renderList();
+    </script>
+</body>
+</html>

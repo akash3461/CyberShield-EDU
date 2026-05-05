@@ -1,0 +1,101 @@
+{
+    "quick_tips": [
+        {
+            "id": "qt1",
+            "title": "Verify Before You Pay",
+            "content": "No legitimate employer or internship provider will ever ask you to pay a 'registration fee' or 'security deposit' before joining."
+        },
+        {
+            "id": "qt2",
+            "title": "Check the Email Domain",
+            "content": "Official recruitment emails usually come from company domains (e.g., @google.com) not from generic providers like gmail.com or outlook.com."
+        }
+    ],
+    "scam_types": [
+        {
+            "type": "Internship Scams",
+            "red_flags": [
+                "Unsolicited offers via WhatsApp or Telegram",
+                "High salary for minimal work",
+                "Vague job descriptions",
+                "Pressure to 'secure your seat' with payment"
+            ]
+        },
+        {
+            "type": "Scholarship/Grant Scams",
+            "red_flags": [
+                "Guaranteed winnings for contests you never entered",
+                "Requests for sensitive bank details 'for the trial'",
+                "Handling fees required for 'tax processing'"
+            ]
+        }
+    ],
+    "scam_quiz": [
+        {
+            "question": "You receive a WhatsApp message from a 'HR Manager' offering a remote internship at Google with a salary of 50,000 INR/month. They ask you to pay 500 INR for processing. What do you do?",
+            "options": [
+                "Pay quickly, it's a great opportunity!",
+                "Block and report. Google never recruits via WhatsApp or asks for money.",
+                "Reply and ask for their official ID card."
+            ],
+            "correct_answer": 1,
+            "explanation": "Legitimate companies like Google never use WhatsApp for first-contact recruitment and NEVER ask for money."
+        },
+        {
+            "question": "A PDF offer letter has no digital signature and was sent from recruitment.google@gmail.com. Is this safe?",
+            "options": [
+                "Yes, it looks professional.",
+                "Maybe, I should check the attachments.",
+                "No. Professional recruiters use company domains, not @gmail.com."
+            ],
+            "correct_answer": 2,
+            "explanation": "A generic email address (@gmail, @outlook) for a major corporation is a 100% red flag."
+        }
+    ],
+    "emergency_contacts": {
+        "india": {
+            "cyber_helpline": "1930",
+            "portal": "https://cybercrime.gov.in",
+            "whatsapp_reporting": "https://wa.me/918130099099"
+        },
+        "global": {
+            "google_phishing": "https://safebrowsing.google.com/safebrowsing/report_phish/",
+            "ftc_complaint": "https://reportfraud.ftc.gov/"
+        }
+    },
+    "action_steps": {
+        "immediate_actions": [
+            "Stop all communication immediately.",
+            "Do not click any more links or download attachments.",
+            "Take screenshots of all communications (messages, profiles, payment requests)."
+        ],
+        "reporting_channels": [
+            {
+                "name": "National Cyber Crime Reporting Portal (India)",
+                "url": "https://cybercrime.gov.in"
+            },
+            {
+                "name": "Report Phishing (Google)",
+                "url": "https://safebrowsing.google.com/safebrowsing/report_phish/"
+            }
+        ]
+    },
+    "wellness": {
+        "message": "It's important to remember that being targeted by a scam is NOT your fault. Professional scammers are highly trained in manipulation.",
+        "grounding_exercises": [
+            "5-4-3-2-1 Technique: Look for 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, and 1 you can taste.",
+            "Box Breathing: Inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Repeat 4 times.",
+            "Physical Movement: Take a 5-minute walk to change your environment and lower cortisol levels."
+        ],
+        "tips": [
+            "Talk to a trusted friend or mentor about what happened.",
+            "Don't let embarrassment stop you from reporting. Reporting helps protect other students.",
+            "If you feel overwhelmed, reach out to your university's student counseling services."
+        ]
+    },
+    "scam_of_the_week": {
+        "title": "The 'Instagram Task' Scam",
+        "description": "Scammers ask you to like certain posts or follow accounts for small payments (50-100 INR). Once they win your trust, they ask you to 'invest' money for 'VIP tasks' with higher returns, then disappear.",
+        "warning": "Never invest money to earn money from simple social media likes."
+    }
+}

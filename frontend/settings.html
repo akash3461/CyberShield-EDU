@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Settings - CyberShield EDU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/gamification.css">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .settings-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            height: 100%;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .badge-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .shield-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .toggle-section:last-child {
+            border-bottom: none;
+        }
+
+        .dev-portal-box {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px dashed var(--primary);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .dev-portal-box.show {
+            display: block;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Switch for Dev Mode */
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 50px;
+          height: 24px;
+        }
+
+        .switch input { 
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        .slider-round {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: var(--glass-border);
+          transition: .4s;
+          border-radius: 24px;
+        }
+
+        .slider-round:before {
+          position: absolute;
+          content: "";
+          height: 16px;
+          width: 16px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+        }
+
+        input:checked + .slider-round {
+          background-color: var(--primary);
+        }
+
+        input:checked + .slider-round:before {
+          transform: translateX(26px);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-badge">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+            </div>
+            <span>CyberShield</span>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="detector.html">Detector</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="history.html">My Scans</a></li>
+                <li><a href="quiz.html">Scam Quiz</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- Theme Toggle -->
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <div class="slider">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                    </svg>
+                </div>
+            </div>
+            
+            <button onclick="logout()" class="btn btn-ghost">Logout</button>
+        </div>
+    </header>
+
+    <main class="settings-container">
+        <div class="hero-tag">⚙️ ACCOUNT PREFERENCES</div>
+        <h1 style="color: var(--text-main); margin-bottom: 2rem;">User Settings</h1>
+
+        <div class="settings-grid">
+            <!-- Profile Card -->
+            <div class="settings-card">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="avatar-initial">U</div>
+                    <div>
+                        <h2 id="settings-username" style="color: var(--text-main); margin-bottom: 5px;">User</h2>
+                        <span id="settings-role" class="category-badge" style="margin:0">Student</span>
+                    </div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">Email Address</div>
+                    <div id="settings-email" class="info-value">user@example.com</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">Member Since</div>
+                    <div id="settings-joined" class="info-value">January 2024</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">Security Mastery</div>
+                    <div class="badge-grid" id="badge-display">
+                        <div class="shield-badge">🛡️ Fraud Watcher</div>
+                        <div class="shield-badge">🔗 Link Verifier</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats & Security Card -->
+            <div class="settings-card">
+                <h3 style="color: var(--text-main); margin-bottom: 1.5rem;">Security & Progress</h3>
+                
+                <div class="info-group">
+                    <div class="info-label">Current Experience</div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-weight:700">Level <span id="settings-level">1</span></span>
+                        <span class="xp-count"><span id="settings-xp">0</span> XP</span>
+                    </div>
+                    <div class="xp-progress-mini" style="height: 10px;">
+                        <div class="xp-fill" id="settings-xp-progress" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <div class="toggle-section">
+                        <div>
+                            <div style="font-weight: 600;">System Theme</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Switch between light and dark themes.</div>
+                        </div>
+                        <button class="btn btn-ghost" onclick="toggleTheme()" style="padding: 0.5rem 1rem;">Toggle</button>
+                    </div>
+
+                    <div class="toggle-section" id="dev-toggle-row">
+                        <div>
+                            <div style="font-weight: 600;">Developer Mode</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">Access API keys and technical portal.</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="dev-mode-checkbox" onchange="toggleDevPortal()">
+                            <span class="slider-round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Hidden Dev Portal Link -->
+                <div id="dev-portal-box" class="dev-portal-box">
+                    <h4 style="color: var(--text-main); margin-bottom: 10px;">Developer Portal</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+                        Manage your Public API keys for integrating CyberShield into other platforms.
+                    </p>
+                    <a href="developer.html" class="btn btn-primary" style="width: 100%; text-decoration: none; text-align: center; display: block;">Enter Developer Portal</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; text-align: center;">
+            <a href="detector.html" class="btn btn-ghost">← Back to Dashboard</a>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!window.api || !window.api.auth) return;
+            
+            const user = window.api.auth.getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Populate UI
+            document.getElementById('settings-username').textContent = user.username || user.name || 'User';
+            document.getElementById('settings-email').textContent = user.email || 'N/A';
+            document.getElementById('settings-role').textContent = user.role || 'Student';
+            document.getElementById('avatar-initial').textContent = (user.username || 'U').charAt(0).toUpperCase();
+            
+            if (user.created_at) {
+                const date = new Date(user.created_at);
+                document.getElementById('settings-joined').textContent = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            }
+
+            // Sync with Gamification
+            if (window.Gamification && typeof window.Gamification.getStats === 'function') {
+                const stats = window.Gamification.getStats();
+                document.getElementById('settings-xp').textContent = stats.xp;
+                document.getElementById('settings-level').textContent = stats.level;
+                document.getElementById('settings-xp-progress').style.width = stats.progress + '%';
+            }
+        });
+
+        function toggleDevPortal() {
+            const checkbox = document.getElementById('dev-mode-checkbox');
+            const box = document.getElementById('dev-portal-box');
+            if (checkbox.checked) {
+                box.classList.add('show');
+            } else {
+                box.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PsychLog Simulator | Scenarios 2.0</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        :root {
+            --phone-bg: #ffffff;
+            --msg-left: #f1f5f9;
+            --msg-right: var(--primary);
+            --msg-text-left: #0f172a;
+            --msg-text-right: #ffffff;
+        }
+
+        .mode-dark {
+            --phone-bg: #0f172a;
+            --msg-left: #1e293b;
+            --msg-text-left: #f8fafc;
+        }
+
+        .phone-shell {
+            width: 100%;
+            max-width: 420px;
+            height: 750px;
+            background: var(--phone-bg);
+            margin: 40px auto;
+            border-radius: 40px;
+            border: 12px solid #1e293b;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+            animation: phonePop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes phonePop {
+            from { transform: scale(0.8) translateY(50px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        /* Phone Header */
+        .phone-header {
+            padding: 20px;
+            background: rgba(0,0,0,0.02);
+            border-bottom: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .phone-status-bar { height: 25px; padding: 0 20px; display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); }
+
+        .chat-contact { display: flex; align-items: center; gap: 12px; justify-content: center; margin-top: 10px; }
+        .avatar-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+        /* Chat History */
+        .chat-history {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        .msg-bubble {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            position: relative;
+            animation: msgFade 0.3s ease forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes msgFade { to { opacity: 1; transform: translateY(0); } }
+
+        .msg-left { align-self: flex-start; background: var(--msg-left); color: var(--msg-text-left); border-bottom-left-radius: 4px; }
+        .msg-right { align-self: flex-end; background: var(--msg-right); color: var(--msg-text-right); border-bottom-right-radius: 4px; }
+
+        .msg-time { font-size: 0.65rem; opacity: 0.6; margin-top: 5px; display: block; text-align: right; }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            padding: 12px 18px;
+            background: var(--msg-left);
+            border-radius: 18px;
+            align-self: flex-start;
+            display: none;
+            gap: 4px;
+        }
+        .dot { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: dotPulse 1.4s infinite; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dotPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        /* Option Tray */
+        .choice-tray {
+            padding: 20px;
+            background: rgba(0,0,0,0.02);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .choice-btn:hover { background: var(--primary-glow); transform: scale(1.02); }
+
+        /* Results Overlay */
+        .scenario-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(5px);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            z-index: 100;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-badge">🛡️</div>
+            <span>CyberShield</span>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="detector.html">Detector</a></li>
+                <li><a href="academy.html">Academy</a></li>
+                <li><a href="education.html" class="active">Education</a></li>
+                <li><a href="history.html">My Scans</a></li>
+                <li><a href="quiz.html">Scam Quiz</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- Auth Buttons (Hidden when logged in) -->
+            <div id="auth-buttons" class="auth-ui">
+                <a href="login.html" class="btn btn-ghost">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+
+            <!-- User Profile (Shown when logged in) -->
+            <div id="user-profile" class="auth-ui" style="display: none;">
+                <div class="user-info-pill">
+                    <span id="header-username" class="username-text">User</span>
+                    <div class="user-stats-brief" style="margin-left: 10px;">
+                        <div class="level-circle" data-gamif="level" style="width: 24px; height: 24px; font-size: 0.7rem;">1</div>
+                    </div>
+                    <button onclick="logout()" class="logout-mini-btn" title="Logout" style="margin-left: 10px; background: none; border: none; color: var(--text-muted); cursor: pointer;">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Theme Switch -->
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <div class="slider">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px;">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 100px;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="hero-tag">🎭 SCENARIO 2.0</div>
+            <h1 style="font-size: 2rem;">Social Engineering Simulator</h1>
+            <p style="color: var(--text-muted);">Navigate psychological traps and stop impersonators in real-time conversation.</p>
+        </div>
+
+        <div class="phone-shell">
+            <div class="phone-status-bar">
+                <span>9:41 AM</span>
+                <div style="display: flex; gap: 5px;">📶 🛜 🔋</div>
+            </div>
+
+            <div class="phone-header">
+                <div class="chat-contact">
+                    <div id="author-avatar" class="avatar-circle">?</div>
+                    <div>
+                        <div id="author-name" style="font-weight: 700; font-size: 1rem;">Unknown Contact</div>
+                        <div style="font-size: 0.7rem; color: var(--success);">Online</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chat-history" class="chat-history">
+                <!-- Chat bubbles -->
+                <div id="typing-indicator" class="typing-indicator">
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+            </div>
+
+            <div id="choice-tray" class="choice-tray">
+                <!-- User options -->
+            </div>
+
+            <!-- Result Overlay -->
+            <div id="scenario-overlay" class="scenario-overlay">
+                <div id="result-icon" style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+                <h2 id="result-title" style="margin-bottom: 10px;">Scenario Complete</h2>
+                <p id="result-desc" style="margin-bottom: 30px; opacity: 0.8;"></p>
+                <button class="btn btn-primary" onclick="location.reload()">Next Scenario</button>
+                <a href="education.html" class="btn btn-ghost" style="margin-top: 10px;">Return Hub</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        const SCENARIO_GRAPH = {
+            startId: 'intro',
+            nodes: {
+                'intro': {
+                    author: 'CyberShield System',
+                    text: "Welcome to the Psychological Shield. Choose a training simulation to begin.",
+                    options: [
+                        { text: "Sim 1: The Impersonator (Discord)", next: 'discord_help' },
+                        { text: "Sim 2: The Scholarship Bait", next: 'scholarship_start' },
+                        { text: "Sim 3: The Remote Job Hook", next: 'job_start' }
+                    ]
+                },
+                // --- Simulation 1: Discord Impersonator ---
+                'discord_help': {
+                    author: 'Professor Green',
+                    text: "Hi there! This is Professor Green from the CS department. I'm having a bit of an emergency with the final grades portal.",
+                    options: [
+                        { text: "Oh no! How can I help, Professor?", next: 'discord_request' },
+                        { text: "Professor? Why are you DMing me on Discord for this?", next: 'discord_verify' }
+                    ]
+                },
+                'discord_request': {
+                    author: 'Professor Green',
+                    text: "The server is asking for a one-time verification token that was sent to your registered university email. Could you send it to me? It's really urgent!",
+                    options: [
+                        { text: "Sure, let me check my email...", next: 'discord_fail' },
+                        { text: "I can't do that. You should contact IT if you're locked out.", next: 'discord_win' }
+                    ]
+                },
+                'discord_verify': {
+                    author: 'Professor Green',
+                    text: "My university email is down too! I just need that quick verification code that was sent to you. Please, I have 100 grades to upload by noon!",
+                    options: [
+                        { text: "Okay, since it's an emergency. Here it is...", next: 'discord_fail' },
+                        { text: "Something doesn't feel right. I'm reporting this chat.", next: 'discord_win' }
+                    ]
+                },
+                'discord_win': {
+                    author: 'Professor Green',
+                    text: "[SYSTEM] Contact has been blocked and reported.",
+                    result: { success: true, title: "System Shielded", desc: "You spotted the 'Impersonation' tactic. Professors will NEVER ask students for MFA codes via Discord.", xp: 50 }
+                },
+                'discord_fail': {
+                    author: 'Professor Green',
+                    text: "Perfect! Thanks... wait, logging in now. Your account is now being used to distribute malware.",
+                    result: { success: false, title: "Account Breach", desc: "You fell for a verification code scam. MFA codes should NEVER be shared with anyone.", xp: -20 }
+                },
+                
+                // --- Simulation 2: Scholarship Bait ---
+                'scholarship_start': {
+                    author: 'Univ-Awards',
+                    text: "URGENT NOTICE: You have been selected as a finalist for the 'Silver-Talon' Student Grant ($5,000). To process your disbursement, we need to confirm your eligibility.",
+                    options: [
+                        { text: "Wow, $5,000! What do I need to do?", next: 'scholarship_form' },
+                        { text: "I didn't apply for this. Is this official?", next: 'scholarship_verify' }
+                    ]
+                },
+                'scholarship_form': {
+                    author: 'Univ-Awards',
+                    text: "Great! Please click here to fill out the Secure Eligibility Form: http://univ-disburse-portal.com/form. It requires your SSN and bank routing info.",
+                    options: [
+                        { text: "Okay, filling it out now...", next: 'scholarship_fail' },
+                        { text: "I'm not comfortable giving my SSN on this site.", next: 'scholarship_win' }
+                    ]
+                },
+                'scholarship_verify': {
+                    author: 'Univ-Awards',
+                    text: "This is a direct grant from the alumni association! We only have 3 slots left. If you don't confirm in 10 minutes, we'll move to the next student.",
+                    options: [
+                        { text: "I don't want to miss out! Sending info...", next: 'scholarship_fail' },
+                        { text: "This urgency is a red flag. I'm ignoring this.", next: 'scholarship_win' }
+                    ]
+                },
+                'scholarship_win': {
+                    author: 'Univ-Awards',
+                    text: "[SYSTEM] Potentially malicious link blocked by CyberShield.",
+                    result: { success: true, title: "Grant-Trap Avoided", desc: "You recognized the 'Artificial Urgency' and 'High-Value Bait' tactics common in scholarship scams.", xp: 60 }
+                },
+                'scholarship_fail': {
+                    author: 'Univ-Awards',
+                    text: "Form submitted. Your identity has been compromised and your bank account drained.",
+                    result: { success: false, title: "Identity Theft", desc: "Scholarships that find YOU and ask for sensitive info like SSN or bank details are almost always scams.", xp: -50 }
+                },
+
+                // --- Simulation 3: Remote Job Hook ---
+                'job_start': {
+                    author: 'Recruiter Sarah',
+                    text: "Hi! I saw your profile on LinkedIn. We're hiring for a Remote Data Assistant role at TechFlow. Pay is $45/hr. Interested?",
+                    options: [
+                        { text: "Definitely! $45/hr sounds amazing for an assistant role.", next: 'job_interview' },
+                        { text: "That pay seems very high for this role. Can I see the official posting?", next: 'job_verify' }
+                    ]
+                },
+                'job_interview': {
+                    author: 'Recruiter Sarah',
+                    text: "We're moving fast! To join the 'Interview Room', you need to download and run our secure browser plugin: TechFlow-Connect.zip.",
+                    options: [
+                        { text: "Okay, downloading the plugin now...", next: 'job_fail' },
+                        { text: "I'll use the browser version instead. I don't download zip files.", next: 'job_win' }
+                    ]
+                },
+                'job_verify': {
+                    author: 'Recruiter Sarah',
+                    text: "We don't have time for a full posting, we're hiring 5 people today! Just download the interview file and we can start.",
+                    options: [
+                        { text: "I don't want to lose the job. Let me try it...", next: 'job_fail' },
+                        { text: "This is definitely a malware trap. Reporting.", next: 'job_win' }
+                    ]
+                },
+                'job_win': {
+                    author: 'Recruiter Sarah',
+                    text: "[SYSTEM] Forensic scan detected malware in the provided attachment.",
+                    result: { success: true, title: "Infection Blocked", desc: "You dodged a 'Malware Delivery' attack disguised as a job interview. Real companies use official video platforms.", xp: 70 }
+                },
+                'job_fail': {
+                    author: 'Recruiter Sarah',
+                    text: "Plugin installed. Your files are now encrypted. Pay 0.5 BTC to recover.",
+                    result: { success: false, title: "Ransomware Breach", desc: "Unsolicited job offers that require downloading suspicious file formats (.zip, .exe) are usually payload delivery vehicles.", xp: -60 }
+                }
+            }
+        };
+
+        let currentNode = null;
+
+        function startScenario() {
+            const graph = SCENARIO_GRAPH;
+            loadNode(graph.startId);
+        }
+
+        async function loadNode(nodeId) {
+            const node = SCENARIO_GRAPH.nodes[nodeId];
+            currentNode = node;
+
+            // Clear choices
+            document.getElementById('choice-tray').innerHTML = '';
+            
+            // Set header
+            document.getElementById('author-name').textContent = node.author;
+            document.getElementById('author-avatar').textContent = node.author[0];
+
+            // Show typing
+            const typing = document.getElementById('typing-indicator');
+            typing.style.display = 'flex';
+            
+            await new Promise(r => setTimeout(r, 1500));
+            typing.style.display = 'none';
+
+            // Add message
+            addMessage(node.text, 'left');
+
+            if (node.result) {
+                showResult(node.result);
+            } else {
+                renderChoices(node.options);
+            }
+        }
+
+        function addMessage(text, side) {
+            const chat = document.getElementById('chat-history');
+            const bubble = document.createElement('div');
+            bubble.className = `msg-bubble msg-${side}`;
+            bubble.innerHTML = `
+                ${text}
+                <span class="msg-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+            `;
+            chat.appendChild(bubble);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function renderChoices(options) {
+            const tray = document.getElementById('choice-tray');
+            tray.innerHTML = options.map((opt, idx) => `
+                <button class="choice-btn" onclick="makeChoice(${idx})">${opt.text}</button>
+            `).join('');
+        }
+
+        function makeChoice(idx) {
+            const opt = currentNode.options[idx];
+            addMessage(opt.text, 'right');
+            loadNode(opt.next);
+        }
+
+        function showResult(result) {
+            const overlay = document.getElementById('scenario-overlay');
+            overlay.style.display = 'flex';
+            document.getElementById('result-icon').textContent = result.success ? '🏆' : '💀';
+            document.getElementById('result-title').textContent = result.title;
+            document.getElementById('result-desc').textContent = result.desc;
+            
+            if (window.Gamification) {
+                window.Gamification.addXp(result.xp, `Scenario: ${result.title}`);
+            }
+        }
+
+        startScenario();
+    </script>
+</body>
+</html>

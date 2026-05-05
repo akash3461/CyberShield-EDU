@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scam Detector | CyberShield EDU</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/gamification.css">
+</head>
+
+<body>
+    <!-- Background Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-badge">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+            </div>
+            <span>CyberShield</span>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="detector.html" class="active">Detector</a></li>
+                <li><a href="academy.html">Academy</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="history.html">My Scans</a></li>
+                <li><a href="quiz.html">Scam Quiz</a></li>
+                <li><a href="admin.html" id="admin-nav">Admin</a></li>
+                            <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- Theme Toggle -->
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <div class="slider">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div id="auth-buttons" class="auth-ui">
+                <a href="login.html" class="btn btn-ghost">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+
+            <div id="user-profile" class="auth-ui" style="display: none;">
+                <div class="user-command-center">
+                    <div class="user-stats-brief">
+                        <div class="level-circle" data-gamif="level">1</div>
+                        <div class="user-meta">
+                            <span id="header-username" class="username-text">User</span>
+                            <span class="xp-count"><span data-gamif="xp">0</span> XP</span>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="logout-mini-btn" title="Logout">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+
+    <main style="padding-top: 100px; min-height: 80vh;">
+        <!-- Detector Section -->
+        <section id="detector" class="animateOnScroll animated">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 10px; color: var(--text-main);">Scam Detector</h2>
+                    <p>Upload files or paste text to analyze for fraudulent indicators.</p>
+                </div>
+
+                    <div class="detector-container">
+                        <!-- Lab Content (Tabs, Inputs, Results) -->
+                    <div class="tabs-header">
+                        <button class="tab-btn active" onclick="switchTab('text-tab')">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" /></svg>
+                            Text Scan
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('url-tab')">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg>
+                            URL Scan
+                            <span class="lock-icon" style="display: none; margin-left: auto;">🔒</span>
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('pdf-tab')">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+                            PDF Scan
+                            <span class="lock-icon" style="display: none; margin-left: auto;">🔒</span>
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('image-tab')">
+                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" /></svg>
+                            Image Scan
+                            <span class="lock-icon" style="display: none; margin-left: auto;">🔒</span>
+                        </button>
+
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div id="text-tab" class="tab-content active">
+                        <div class="input-group">
+                            <textarea id="textScanInput" rows="6" placeholder="Paste the suspicious message (WhatsApp, SMS, Email)..."></textarea>
+                        </div>
+                        <button id="btn-text-scan" class="btn btn-primary w-full">Run Analysis</button>
+                    </div>
+
+                    <div id="url-tab" class="tab-content">
+                        <div class="input-group">
+                            <input type="text" id="urlScanInput" placeholder="Enter the suspicious URL (e.g., http://scam-site.com)...">
+                        </div>
+                        <button id="btn-url-scan" class="btn btn-primary w-full">Scan URL</button>
+                    </div>
+
+                    <div id="pdf-tab" class="tab-content">
+                        <div class="input-group">
+                            <div class="file-drop-zone" id="pdfDropZone" style="border: 2px dashed var(--glass-border); padding: 40px; text-align: center; border-radius: 12px; cursor: pointer; position: relative;">
+                                <div id="pdfDropPrompt">
+                                    <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="margin-bottom: 10px; opacity: 0.5;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                                    <p>Click to upload PDF or drop here</p>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted);">(Deep Recursive Link Scanning Enabled)</p>
+                                </div>
+
+                                <!-- PDF Forensic Preview Hub -->
+                                <div id="pdfPreviewWrapper" class="forensic-lab-preview hidden" style="animation: slideInUp 0.4s ease-out;">
+                                    <div class="preview-content" style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--primary); padding: 20px; border-radius: 12px; display: flex; align-items: center; gap: 15px;">
+                                        <div class="doc-icon" style="background: var(--primary-glow); padding: 12px; border-radius: 10px; color: var(--primary);">
+                                            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.707 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                                        </div>
+                                        <div style="text-align: left; flex: 1; min-width: 0;">
+                                            <div id="pdfFileName" style="font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">document.pdf</div>
+                                            <div id="pdfFileSize" style="font-size: 0.75rem; color: var(--primary);">0.0 MB // EVIDENCE STAGED</div>
+                                        </div>
+                                        <div class="preview-controls">
+                                            <button id="btn-clear-pdf" class="btn-clear-evidence" title="Clear Evidence" style="background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 6px; border-radius: 6px; cursor: pointer;">
+                                                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="file" id="pdfInput" accept=".pdf" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                            </div>
+                        </div>
+                        <button id="btn-pdf-scan" class="btn btn-primary w-full">Analyze PDF</button>
+                    </div>
+
+                    <div id="image-tab" class="tab-content">
+                        <div class="input-group">
+                            <div class="file-drop-zone" id="imageDropZone" style="border: 2px dashed var(--glass-border); padding: 40px; text-align: center; border-radius: 12px; cursor: pointer; position: relative;">
+                                <input type="file" id="imageFileInput" accept="image/*" class="file-input-hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                                
+                                <div id="imagePreviewWrapper" style="display: none; position: relative; width: 100%; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid var(--primary); margin-bottom: 15px;">
+                                    <div style="position: absolute; top: 10px; left: 10px; z-index: 10; display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--primary);">
+                                        <div style="width: 8px; height: 8px; background: var(--primary); border-radius: 50%; border: 2px solid rgba(0, 122, 255, 0.4); box-shadow: 0 0 10px var(--primary); animation: pulse 1.5s infinite;"></div>
+                                        <span style="font-size: 0.65rem; color: var(--primary); font-family: monospace; font-weight: 700; letter-spacing: 1px;">EVIDENCE_FEED//LIVE</span>
+                                    </div>
+                                    <img id="imagePreview" src="" alt="Evidence Preview" style="width: 100%; max-height: 300px; object-fit: contain; display: block;">
+                                    <button id="btn-clear-image" type="button" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(239, 68, 68, 0.8); border: none; color: white; padding: 5px; border-radius: 50%; cursor: pointer;">
+                                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+
+                                <div id="dropZonePrompt">
+                                    <svg class="file-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 48px; height: 48px; color: var(--primary); margin-bottom: 15px; opacity: 0.7;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                    </svg>
+                                    <p class="file-text-primary">Click to upload Image or drop here</p>
+                                    <p class="file-text-secondary" style="font-size: 0.8rem; color: var(--text-muted);">OCR & Forensic Deep-Audit Enabled</p>
+                                </div>
+                                <p id="imageFileNameDisplay" style="display: none; margin-top: 10px;">Selected: <span></span></p>
+                            </div>
+                        </div>
+                        <button id="btn-image-scan" class="btn btn-primary w-full">Analyze Image</button>
+                    </div>
+
+
+
+                    <!-- Result Area -->
+                    <div id="result-container" style="display: none; margin-top: 40px; animation: fadeInUp 0.8s ease forwards;">
+                        <!-- Filled by dynamic scan logic -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" style="border-top:1px solid var(--glass-border);padding:2rem 0;"><div class="container" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;"><p style="margin:0;">&copy; 2026 CyberShield EDU. Stay Safe, Stay Informed.</p><div style="display:flex;gap:1.5rem;"><a href="about.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">About</a><a href="terms.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">Terms</a><a href="developer.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">API</a></div></div></footer>
+
+    <!-- Confidence Explanation Modal -->
+    <div id="confidenceModal" class="modal">
+        <div class="modal-content glass-card">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <div class="tip-icon">🛡️</div>
+                <h3>Understanding the Confidence Score</h3>
+            </div>
+            <div class="modal-body">
+                <p>The <strong>AI Confidence Score</strong> represents how closely the analyzed content matches known fraudulent patterns in our database.</p>
+                <div class="explanation-grid">
+                    <div class="exp-item">
+                        <span class="exp-label">90% - 100%</span>
+                        <p>High certainty of a scam. Features align perfectly with verified fraud tactics.</p>
+                    </div>
+                    <div class="exp-item">
+                        <span class="exp-label">70% - 89%</span>
+                        <p>Suspicious indicators found. Proceed with extreme caution.</p>
+                    </div>
+                    <div class="exp-item">
+                        <span class="exp-label">50% - 69%</span>
+                        <p>Potential risk detected. Patterns are ambiguous but warrant a second look.</p>
+                    </div>
+                    <div class="exp-item">
+                        <span class="exp-label">Below 50%</span>
+                        <p>Low matching with fraud signatures. Usually indicates safe content.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.85rem; color: var(--text-muted);">Note: Our AI evaluates linguistics, metadata, and structural patterns. Always use your best judgment in addition to our analysis.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Prompt Modal -->
+    <div id="authPromptModal" class="modal">
+        <div class="modal-content glass-card" style="max-width: 400px; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 20px;">🛡️</div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: var(--text-main);">Unlock Full Protection</h3>
+            <p id="authPromptMessage" style="color: var(--text-muted); margin-bottom: 25px; line-height: 1.6;">Join CyberShield to unlock full protection and track your security history.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <a href="signup.html" class="btn btn-primary" style="text-decoration: none;">Create Free Account</a>
+                <a href="login.html" class="btn btn-ghost" style="text-decoration: none;">Log In</a>
+                <button class="btn btn-ghost" onclick="document.getElementById('authPromptModal').classList.remove('show')" style="font-size: 0.8rem; margin-top: 10px; color: var(--text-secondary);">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

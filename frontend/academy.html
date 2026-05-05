@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber-Academy | CyberShield EDU</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/gamification.css">
+</head>
+
+<body>
+    <!-- Background Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-badge">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                </svg>
+            </div>
+            <span>CyberShield</span>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="detector.html">Detector</a></li>
+                <li><a href="academy.html" class="active">Academy</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="history.html">My Scans</a></li>
+                <li><a href="quiz.html">Scam Quiz</a></li>
+                            <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- Theme Toggle -->
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+                <div class="slider">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div id="auth-buttons" class="auth-ui">
+                <a href="login.html" class="btn btn-ghost">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+
+            <div id="user-profile" class="auth-ui" style="display: none;">
+                <div class="user-command-center">
+                    <div class="user-stats-brief">
+                        <div class="level-circle" data-gamif="level">1</div>
+                        <div class="user-meta">
+                            <span id="header-username" class="username-text">User</span>
+                            <span class="xp-count"><span data-gamif="xp">0</span> XP</span>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="logout-mini-btn" title="Logout">
+                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main style="padding-top: 120px;">
+        <div class="container">
+            <!-- Academy Hero -->
+            <section class="academy-hero animateOnScroll animated" style="text-align: center; margin-bottom: 60px;">
+                <div class="hero-tag" style="margin-bottom: 15px;">🛡️ CYBER-ACADEMY HUB</div>
+                <h1 style="font-size: 3rem; color: var(--text-main);">Your Forensic Dossier</h1>
+                <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Review your progress, collect mastery badges, and ascend the ranks of the CyberShield Academy.</p>
+            </section>
+
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start;">
+                <!-- Left Sidebar: Rank & Level -->
+                <div class="dossier-left animateOnScroll animated">
+                    <div class="academy-card" style="text-align: center; padding: 40px;">
+                        <div id="academy-badge-logo" style="font-size: 5rem; margin-bottom: 20px; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block;" title="Click for a surprise!">🛡️</div>
+                        <h2 class="rank-title" data-gamif="title" style="font-size: 1.8rem; color: var(--primary);">Cyber Scout</h2>
+                        <p class="rank-subtitle" style="letter-spacing: 2px;">Academy Standing</p>
+                        
+                        <div style="margin-top: 40px; text-align: left;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span style="font-weight: 700;">Level <span data-gamif="level">1</span></span>
+                                <span style="color: var(--primary); font-weight: 800;"><span data-gamif="xp">0</span> XP</span>
+                            </div>
+                            <div class="xp-progress-mini" style="height: 12px; border-radius: 6px;">
+                                <div class="xp-fill" data-gamif="progress" style="width: 0%"></div>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; text-align: center;">Next level in <span id="xp-to-next">...</span> XP</p>
+                        </div>
+                    </div>
+
+                    <div class="academy-card" style="margin-top: 30px; background: var(--primary-glow); border-color: var(--primary);">
+                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Academy Mission</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                            Your mission is to secure the campus by identifying fraudulent patterns. Each successful scan builds your forensic profile.
+                        </p>
+                        <a href="detector.html" class="btn btn-primary w-full" style="margin-top: 20px; font-size: 0.8rem;">Continue Training</a>
+                    </div>
+                </div>
+
+                <!-- Right Content: Badges & Progress -->
+                <div class="dossier-right animateOnScroll animated">
+                    <div class="academy-card">
+                        <div class="badge-collection-header" style="padding-bottom: 20px; border-bottom: 1px solid var(--glass-border); margin-bottom: 30px;">
+                            <h3 style="color: var(--text-main);">Mastery Showcase</h3>
+                            <span id="badge-total" style="font-size: 0.8rem; background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-weight: 700;">... Badges Earned</span>
+                        </div>
+                        
+                        <div id="academy-badges" class="academy-badges" style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px;">
+                            <!-- Populated via gamification.js -->
+                            <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">Synchronizing with the Academy server...</p>
+                        </div>
+                    </div>
+
+                    <div class="academy-card" style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 25px; color: var(--text-main);">Learning Paths</h3>
+                        <div style="display: grid; gap: 15px;">
+                            <div style="display: flex; gap: 20px; align-items: center; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                                <div style="font-size: 2rem;">🎣</div>
+                                <div style="flex: 1;">
+                                    <h4 style="color: var(--text-main);">Phishing Fundamentals</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);">Learn to identify suspicious links and senders.</p>
+                                </div>
+                                <a href="education.html" class="btn btn-ghost btn-sm">Explore</a>
+                            </div>
+                            <div style="display: flex; gap: 20px; align-items: center; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                                <div style="font-size: 2rem;">🖼️</div>
+                                <div style="flex: 1;">
+                                    <h4 style="color: var(--text-main);">Deep-Fake Forensics</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);">Master visual artifact detection in media.</p>
+                                </div>
+                                <a href="education.html" class="btn btn-ghost btn-sm disabled">Coming Soon</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" style="border-top:1px solid var(--glass-border);padding:2rem 0;"><div class="container" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;"><p style="margin:0;">&copy; 2026 CyberShield EDU. Stay Safe, Stay Informed.</p><div style="display:flex;gap:1.5rem;"><a href="about.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">About</a><a href="terms.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">Terms</a><a href="developer.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.9rem;">API</a></div></div></footer>
+
+    <div id="toast-container"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,5 @@
+# Sample Scams
+
+1. TEXT: "Congratulations! You have been selected for a remote internship at Google. Please pay 2000 INR as registration fee to confirm your seat."
+2. URL: "http://google-internship-verify.bit.ly/apply"
+3. PDF: "Attached is your offer letter. Note: A security deposit of 1500 is required."
